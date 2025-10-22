@@ -65,17 +65,17 @@ pip install -r requirements.txt
 
 ### Basic Usage
 ```bash
-python test.py
+python HTE.py
 ```
 
-Make sure `FINAL_DATA_T1D_03252025.csv` is in the same directory.
+Make sure `FINAL_DATA.csv` is in the same directory.
 
 ### Configuration Options
 
-Edit `test.py` to customize:
+Edit `HTE.py` to customize:
 
 ```python
-# At the bottom of test.py
+# At the bottom of HTE.py
 TRAIN_FINAL_MODEL = True   # Generate interpretability visualizations
 # TRAIN_FINAL_MODEL = False  # Skip final model (saves ~50% time)
 ```
@@ -124,23 +124,6 @@ For each outcome, the pipeline generates:
 - Kennedy, E. H. (2023). "Towards optimal doubly robust estimation of heterogeneous causal effects." Electronic Journal of Statistics.
 - Chernozhukov, V., et al. (2018). "Double/debiased machine learning for treatment and structural parameters." The Econometrics Journal.
 
-## Important Notes
-
-### Propensity Score Handling
-
-**This implementation does NOT pre-compute propensity scores as features.**
-
-Unlike some notebook implementations, `test.py`:
-- ✅ Does NOT use `LogisticRegression` to pre-calculate propensity scores
-- ✅ Does NOT add propensity scores to the feature matrix `X`
-- ✅ Lets `DRLearner` estimate propensity scores internally using `XGBClassifier`
-
-**Why?**
-1. Pre-computing PS and adding it to X creates circularity (information leakage)
-2. DRLearner's internal cross-fitting (cv=3) requires PS estimation on independent folds
-3. Using XGBoost for PS (instead of Logistic Regression) captures non-linear treatment assignment
-
-See `DIFFERENCES_FROM_NOTEBOOK.md` for detailed explanation.
 
 ### Other Technical Details
 
